@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>weather information</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header>
+            <h1>weather information</h1>
+            <p>Check the current weather of a city</p>
+        </header>
+        <div class="content">
+            <h2>weather search</h2>
+            <input type="text" id="city" placeholder="Enter city name">
+            <button onclick="getWeather()">Get Weather</button>
+            <div id="result"></div>
+        </div>
+        <script>
+            async function getWeather(){
+                let city=document.getElementById("city").value;
+                let url="https://wttr.in/"+city+"?format=j1";
+                try{
+                    let response=await fetch(url);
+                    let data=await response.json();
+                    let weather=data.current_condition[0];
+                    document.getElementById("result").innerHTML=
+                    "<h3>"+city+"</h3>"+
+                    "Temperature:"+weather.temp_C+"°C<br>"+
+                    "condition:"+weather.weatherDesc[0].value+"<br>"+
+                    "Humidity:"+weather.humidity+"%";
+                }
+            
+            catch{
+                document.getElementById("result").innerHTML=
+                "UNABLE TO GET WEATHER INFORMATION."
+            }
+        }
+        </script>
+    </body>
+</html>
